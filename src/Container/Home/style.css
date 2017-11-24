@@ -27,13 +27,14 @@
 }
 
 .goodKind .item{
-  width: 116px;
+  width: 126px;
   height: 82px;
   display: flex;
+  text-align: left;
   align-items: center;
   margin-top: 34px;
   padding-left: 34px;
-  padding-right: 34px;
+  padding-right: 24px;
   color: #000;
   font-size: 24px;
   background: url(../../imgs/nav-bar.png);
