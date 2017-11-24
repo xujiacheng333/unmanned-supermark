@@ -1,0 +1,31 @@
+.NetError{
+  width: 930px;
+  height: 757px;
+  border-radius: 20px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.NetError .netErrorIcon{
+  width: 200px;
+  height: 200px;
+  margin-top: 144px;
+}
+
+.NetError .NetError-t1 {
+  font-size: 40px; 
+  color: #3d3d3d;
+  margin-top: 84px;
+  display: block;
+  text-align: center;
+}
+.NetError .NetError-t2 {
+  font-size: 40px; 
+  color: #0abca9;
+  display: block;
+  margin-top: 29px;
+  text-align: center;
+}

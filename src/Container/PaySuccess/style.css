@@ -1,0 +1,45 @@
+.PaySuccess{
+  width: 930px;
+  height: 757px;
+  border-radius: 20px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PaySuccess .paySuccessIcon {
+  width: 200px;
+  height: 200px;
+  margin-top: 134px;
+  margin-bottom: 50px;
+
+}
+
+.PaySuccess .PaySuccess-t1 {
+  display: block;
+  line-height: 66px;
+  font-size: 40px;
+  color: #3d3d3d;
+  text-align: center;
+
+}
+
+.PaySuccess .PaySuccess-t2{
+  display: block;
+  line-height: 66px;
+  font-size: 40px;
+  color: #1ba828;
+  text-align: center;
+}
+
+.PaySuccess .PaySuccess-t3{
+  font-size: 32px;
+  margin-top: 143px;
+  display: block;
+  text-align: center;
+  color: #cbcbcb;
+  
+}
+
+

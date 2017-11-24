@@ -1,0 +1,137 @@
+.PayByHuiyuan{
+  width: 804px;
+  padding: 54px 63px 75px;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+
+.PayByHuiyuan .top{
+  background-color: #fff;
+  border-bottom: 1px solid #d6d6d6;
+
+}
+
+.PayByHuiyuan .top h2{
+  font-size: 40px;
+  color: #3d3d3d;
+  text-align: center;
+  line-height: 86px;
+}
+
+.PayByHuiyuan .top .price {
+  font-size: 32px;
+  line-height: 86px;
+  color: #ff0000;
+  display: block;
+  text-align: center;
+}
+.PayByHuiyuan .top .price strong {
+  font-size: 48px;
+}
+
+.PayByHuiyuan .top .letfTime{
+  font-size: 26px;
+  color: #808080;
+  display: block;
+  text-align: center;
+  margin-top: 56px;
+  margin-bottom: 28px;
+}
+
+.PayByHuiyuan .mid .Qrcode{
+  width: 256px;
+  height: 256px;
+  margin: auto;
+  margin-top: 56px;
+  margin-bottom: 44px;
+  display: block;
+  position: relative;
+}
+.PayByHuiyuan .mid .Qrcode .Qrcode-img{
+  width: 256px;
+  height: 256px;
+}
+.PayByHuiyuan .mid .Qrcode .Qrcode-img.real-Qrcode-img{
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.PayByHuiyuan .mid .Qrcode .loadingIcon{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.PayByHuiyuan .mid .text{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #808080;
+  font-size: 28px;
+  margin-bottom: 36px;
+}
+.PayByHuiyuan .mid .text .payIcon {
+  width: 38px;
+  height: 38px;
+  margin: 0;
+  margin-right: 22px;
+  display: inline-block;
+}
+
+
+.PayByHuiyuan .mid .paying {
+  margin: auto;
+  margin-top: 32px;
+  margin-bottom: 18px;
+  width: 92px;
+  height: 166px;
+  display: block;
+}
+
+
+.PayByHuiyuan .mid .paying-t1 {
+  font-size: 26px;
+  color: #3d3d3d;
+  line-height: 44px;
+  text-align: center;
+  display: block;
+}
+
+.PayByHuiyuan .mid .paying-t2 {
+  font-size: 32px;
+  color: #1f1f1f;
+  line-height: 50px;
+  text-align: center;
+  display: block;
+}
+.PayByHuiyuan .mid .paying-button{
+  margin: auto;
+  margin-top: 36px;
+  margin-bottom: 30px;
+  border: none;
+  outline: none;
+  border: 1px solid #ff7c1c;
+  border-radius: 10px;
+  height: 54px;
+  font-size: 20px;
+  line-height: 54px;
+  width: 144px;
+  color: #ff7c1c;
+  display: block;
+}
+
+
+.PayByHuiyuan .bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #d6d6d6;
+}
+
+.PayByHuiyuan .bottom img {
+  width: 828px;
+  height: 338px;
+  margin-top: 50px;
+}

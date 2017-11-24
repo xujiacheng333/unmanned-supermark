@@ -1,0 +1,193 @@
+.ShoppingCar-container{
+  width: 930px;
+  position: relative;
+
+}
+
+.ShoppingCar-container .top {
+  height: 90px;
+  background-color: #e6e6e6;
+  position: relative;
+  border-radius: 20px 20px 0 0 ;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border: none;
+}
+
+/*购物车*/
+
+.ShoppingCar-shopping-cart{
+  width: 110px;
+  height: 110px;
+  position: fixed;
+  left: 32px;
+  top: -53px;
+  z-index: 2;
+}
+
+.ShoppingCar-cartTotalNum{
+  display: block;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 24px;
+  background-color: #ff0000;
+  color: #fff;
+  border-radius: 20px;
+  position: fixed;
+  left: 104px;
+  top: -60px;
+  z-index: 3;
+}
+
+.car-del-all{
+  padding-right: 30px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.car-del-all img{
+  padding-right: 20px;
+
+}
+
+
+
+.ShoppingCar-container .main {
+  background-color: #fff;
+  padding: 40px 0;
+  padding-top: 0;
+  border-radius: 0 0 20px 20px ;
+  border: none;
+  overflow: hidden;
+}
+
+.ShoppingCar-good-container{
+  max-height: 710px;
+  overflow: auto;
+  width: calc(100% + 20px);
+
+}
+
+.ShoppingCar-good-item{
+  display: flex;
+  align-items: center;
+  height: 200px;
+  padding-left:40px;
+  padding-right:60px;
+  position: relative;
+}
+.ShoppingCar-good-item:first-child{
+  border-top: none;
+
+}
+.ShoppingCar-good-item hr {
+  position: absolute;
+  width: calc(100% - 100px);
+  left: 40px;
+  bottom: 0;
+  border: none;
+  border-bottom: 1px solid #d6cfc9;
+}
+.ShoppingCar-good-item img{
+  width: 140px;
+  height: 140px;
+  margin-right: 48px;
+}
+
+.ShoppingCar-good-item .mid{
+  flex:1;
+  text-align: left;
+}
+
+.ShoppingCar-good-item .mid .name{
+  text-align: left;
+  color: #1f1f1f;
+  font-size: 22px;
+  line-height: 46px;
+  font-weight: normal;
+} 
+
+.ShoppingCar-good-item .mid .p_price{
+  font-size: 16px;
+  color: #ff0000;
+
+}
+.ShoppingCar-good-item .mid .p_price strong{
+  font-size: 24px;
+}
+
+.ShoppingCar-good-item .mid .m_price{
+  font-size: 16px;
+  color: #808080;
+  margin-left: 50px;
+}
+
+
+
+/* 底部*/
+.ShoppingCar-container .bottom{
+  height: 146px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 0 40px;
+  border-top: 1px solid #d6cfc9;
+}
+
+.ShoppingCar-container .bottom .button-title {
+  font-size: 20px;
+  color: #808080;
+  margin-right: 26px;
+  line-height: 40px;
+  align-self: flex-end;
+}
+.ShoppingCar-container .bottom .All_price {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-right: 44px;
+}
+
+.ShoppingCar-container .bottom .All_price .p_price{
+  font-size: 32px;
+  color: #ff5858;
+
+
+}
+.ShoppingCar-container .bottom .All_price .m_price{
+  font-size: 28px;
+  color: #808080;
+
+}
+
+.ShoppingCar-container .bottom .pay-weixin{
+  width: 220px;
+  height: 88px;
+  line-height: 88px;
+  font-size: 36px;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  background: linear-gradient(to right, #55ca35, #1fa215);
+  margin-right: 20px;
+  outline:none;
+  border: none;
+}
+
+.ShoppingCar-container .bottom .pay-huiyuan{
+  width: 220px;
+  height: 88px;
+  line-height: 88px;
+  font-size: 36px;
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  background: linear-gradient(to right, #ffa11c, #f86a02);
+  outline:none;
+  border: none;
+}
