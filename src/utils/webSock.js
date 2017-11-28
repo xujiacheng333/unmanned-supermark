@@ -1,5 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
+import _config from '@/config';
 
 
 function myWebSocket(config, that){
@@ -47,8 +48,8 @@ function myWebSocket(config, that){
             var that = this;
             that.client_id = data['client_id']; 
             let sendData = qs.stringify({
-                cinema_id: 2,
-                seller_id: 1,
+                cinema_id: _config.cinema_id,
+                seller_id: _config.seller_id,
                 client_id: that.client_id,
             })
             axios({

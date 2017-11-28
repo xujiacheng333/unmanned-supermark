@@ -47,7 +47,7 @@ class ShoppingCar extends Component {
           </div>
           <div className="main">
             <div className="ShoppingCar-good-container">
-              <QueueAnim appear={false} type="left" interval="0">
+              <QueueAnim appear={false} type="left" interval="100">
                 {
                   this.props.shoppingCart.goodlist.map((gval, gindex)=>(
                     <div className="ShoppingCar-good-item" key={gval.id}>

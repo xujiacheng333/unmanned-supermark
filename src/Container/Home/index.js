@@ -5,7 +5,7 @@ import './style.css'
 import navTopBg from '@/imgs/nav-top-bg.png';
 import shoppingCartIcon from '@/imgs/shopping-cart.png';
 import TweenOne from 'rc-tween-one';
-import {windowHeight} from '@/utils/reset';
+import {windowHeight, resetHeight} from '@/utils/reset';
 import utils from '@/utils/utils';
 import config from "@/config";
 
@@ -24,7 +24,7 @@ class Home extends Component {
     },
     cartAnimationStyle: {
       opacity: '0',
-    },
+    }
     // 测试
     // openBaffle: true,
     
@@ -44,6 +44,7 @@ class Home extends Component {
         this.setState({
           goods_list: res.data.ResData.data
         });
+        this.addPaddingToBottom()
       }
     })
   }
@@ -187,14 +188,7 @@ class Home extends Component {
     })
 
   }
-  // 更新订单id
-  // updateOrderId = (id) => {
-  //   let shoppingCart = this.state.shoppingCart;
-  //   shoppingCart.order_id = id
-  //   this.setState({
-  //     shoppingCart: shoppingCart,
-  //   })
-  // }
+
 
   // 清空购物车 
   clearAllCart = () =>{
@@ -242,15 +236,29 @@ class Home extends Component {
         goods_list_scrrolling: false,
       })
     },1500)
-
+    
   }
+  
+  // 底部加padding
+  addPaddingToBottom = () => {
+    let goodsListHeight = windowHeight() - 200
+    let ele = window.document.getElementsByClassName('goods_list-item')[window.document.getElementsByClassName('goods_list-item').length - 1]
+    let paddingBottom = goodsListHeight - ele.offsetHeight;
+    if (paddingBottom > 0) {
+        ele.style.marginBottom = paddingBottom + 'px'
+    } else {
+        ele.style.marginBottom = '0px'
+    }
+  }
+
+
   scrollGoodsList = (eve) => {
     if (this.state.goods_list_scrrolling === true) return;
     let curTop = eve.currentTarget.scrollTop
     let titles = window.document.getElementsByClassName('goodsList-title');
     let topArr = [];
     for(let i = 0; i < titles.length; i++){
-      topArr.push(titles[i].offsetTop + 15)
+      topArr.push(titles[i].offsetTop - 15)
     }
     var outputIndex = 0;
     topArr.forEach((val, index) => {
@@ -261,6 +269,8 @@ class Home extends Component {
     this.setState({
       currentGK_index: outputIndex,
     })
+
+
   }
 
   // 购物车 开关
@@ -324,11 +334,13 @@ class Home extends Component {
           }
           <div 
             className="goodsList" 
-            onScroll={this.scrollGoodsList}>
+            onScroll={this.scrollGoodsList}
+            >
             {
               this.state.goods_list.map((value,index) => (
                 <div 
                   id={"goods_list" + index} 
+                  className="goods_list-item"
                   key={'goodsList' + index}
                   >
                   <h2 className="goodsList-title" >{value.name}</h2>

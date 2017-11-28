@@ -23,7 +23,7 @@ class Baffle extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      progress: 1,
+      progress: 0,
       isPaying: false,
       isError: false,
       createOrderRepeatTims: 0,
@@ -46,6 +46,7 @@ class Baffle extends Component {
   
   // 订单倒计时
   setClock = () => {
+    let that = this;
     this.setState({
       clock: 300,
       clockText: '05:00',
@@ -56,6 +57,7 @@ class Baffle extends Component {
       if (clock <= 0) {
         this.props.clearAllCart()
         this.props.changeProgress(0)
+        clearInterval(that.clock)
         return;
       }
       this.setState({
@@ -89,12 +91,12 @@ class Baffle extends Component {
 
   // 若为0 则关闭浮窗
   changeProgress = (progressNum) => {
-    console.log(progressNum)
     if (progressNum === 2 || progressNum === 3) {
       this.anim()
       var connnetedWS = localStorage.getItem('connnetedWS');
       if (connnetedWS !== 'true') {
         // 网络连接失败
+        this.changeProgress(5)
         return;
       }
       this.cancelPaying()
@@ -109,6 +111,10 @@ class Baffle extends Component {
     } else if (progressNum === 1) {
       this.cancelPaying()
       this.anim()
+    } else if (progressNum === 5) {
+      this.cancelPaying()
+      this.clearAllCart()
+      clearInterval(this.clock)
     }
 
     this.setState({
