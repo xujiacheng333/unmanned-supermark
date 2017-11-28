@@ -17,12 +17,9 @@ import paying from './paying.png';
 class PayByWeixin extends Component {
   constructor (props) {
     super(props)
-    console.log(this.props)
     this.state = {
       cinema_id: 2,
       seller_id: 1,
-      clock: 300,
-      clockText: '05:00',
     }
   }
 
@@ -34,34 +31,7 @@ class PayByWeixin extends Component {
 
   }
 
-  clock = setInterval(()=>{
-    let clock = this.state.clock;
-    clock = clock - 1;
-    if (clock <= 0) {
-      this.props.clearAllCart()
-      this.props.changeProgress(0)
-      return;
-    }
-    this.setState({
-      clock: clock,
-      clockText: this.toClocktext(clock),
-    })
-  },1000)
 
-
-  toClocktext = (num) => {
-    let left = Math.floor(num / 60);
-    left = '0' + left;
-    let right = num % 60;
-    if (right < 10) {
-      right = '0' + right;
-    }
-    return left + ':' + right
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.clock)
-  }
 
   // 取消正在支付
   cancelPaying = () => {
@@ -77,7 +47,7 @@ class PayByWeixin extends Component {
             this.props.shoppingCart && <span className="price ">￥<strong>{this.props.shoppingCart.m_priceTotal}</strong></span>
           }
           
-          <span className="letfTime">剩余支付时间{this.state.clockText}</span>
+          <span className="letfTime">剩余支付时间{this.props.clockText}</span>
         </div>
         {
 

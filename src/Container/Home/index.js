@@ -322,10 +322,15 @@ class Home extends Component {
           {
             // 主要菜单
           }
-          <div className="goodsList" onScroll={this.scrollGoodsList}>
+          <div 
+            className="goodsList" 
+            onScroll={this.scrollGoodsList}>
             {
               this.state.goods_list.map((value,index) => (
-                <div id={"goods_list" + index} key={'goodsList' + index}>
+                <div 
+                  id={"goods_list" + index} 
+                  key={'goodsList' + index}
+                  >
                   <h2 className="goodsList-title" >{value.name}</h2>
                   <div className="oneTypeGoodsContainer">
                   {
@@ -394,7 +399,7 @@ class Home extends Component {
           
         </div>
 
-        <Baffle {...this.state} toggleBuffle={this.toggleBuffle} updataGoodlist={this.updataGoodlist} updateOrderId={this.updateOrderId} clearAllCart={this.clearAllCart} />
+        <Baffle {...this.state} toggleBuffle={this.toggleBuffle} updataGoodlist={this.updataGoodlist} clearAllCart={this.clearAllCart} />
       </div>
     );
   }

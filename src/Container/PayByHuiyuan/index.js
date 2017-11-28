@@ -20,8 +20,6 @@ class PayByHuiyuan extends Component {
     this.state = {
       cinema_id: 2,
       seller_id: 1,
-      clock: 300,
-      clockText: '05:00',
     }
   }
 
@@ -33,30 +31,7 @@ class PayByHuiyuan extends Component {
 
   }
 
-  clock = setInterval(()=>{
-    let clock = this.state.clock;
-    clock = clock - 1;
-    if (clock <= 0) {
-      this.props.clearAllCart()
-      this.props.changeProgress(0)
-      return;
-    }
-    this.setState({
-      clock: clock,
-      clockText: this.toClocktext(clock),
-    })
-  },1000)
 
-
-  toClocktext = (num) => {
-    let left = Math.floor(num / 60);
-    left = '0' + left;
-    let right = num % 60;
-    if (right < 10) {
-      right = '0' + right;
-    }
-    return left + ':' + right
-  }
 
   // 取消正在支付
   cancelPaying = () => {
@@ -71,12 +46,12 @@ class PayByHuiyuan extends Component {
     return (
       <div className="PayByHuiyuan">
         <div className="top">
-          <h2>原价支付</h2>
+          <h2>会员支付</h2>
           {
             this.props.shoppingCart && <span className="price ">￥<strong>{this.props.shoppingCart.p_priceTotal}</strong></span>
           }
           
-          <span className="letfTime">剩余支付时间{this.state.clockText}</span>
+          <span className="letfTime">剩余支付时间{this.props.clockText}</span>
         </div>
         
         {

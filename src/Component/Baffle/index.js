@@ -30,7 +30,9 @@ class Baffle extends Component {
       anim: {
         paused: true,
         animation: [],
-      }
+      },
+      clock: 300,
+      clockText: '05:00',
     }
   }
 
@@ -41,6 +43,42 @@ class Baffle extends Component {
   Socket = new webSock({
     'domain' : '120.24.179.157'
   }, this)
+  
+  // 订单倒计时
+  setClock = () => {
+    this.setState({
+      clock: 300,
+      clockText: '05:00',
+    })
+    this.clock = setInterval(()=>{
+      let clock = this.state.clock;
+      clock = clock - 1;
+      if (clock <= 0) {
+        this.props.clearAllCart()
+        this.props.changeProgress(0)
+        return;
+      }
+      this.setState({
+        clock: clock,
+        clockText: this.toClocktext(clock),
+      })
+    },1000)
+  }
+
+
+  toClocktext = (num) => {
+    let left = Math.floor(num / 60);
+    left = '0' + left;
+    let right = num % 60;
+    if (right < 10) {
+      right = '0' + right;
+    }
+    return left + ':' + right
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.clock)
+  }
   
   // 重新打开 返回到购物车页
   componentWillReceiveProps(obj, nextProps) {
@@ -59,13 +97,17 @@ class Baffle extends Component {
         // 网络连接失败
         return;
       }
+      this.cancelPaying()
       this.createOrder() //下单
     } else if (progressNum === 4) {
-      this.props.clearAllCart()
+      this.clearAllCart()
+      this.cancelPaying()
       this.props.toggleBuffle(false)
     } else if (progressNum === 0){
+      this.cancelPaying()
       this.props.toggleBuffle(false)
     } else if (progressNum === 1) {
+      this.cancelPaying()
       this.anim()
     }
 
@@ -116,6 +158,28 @@ class Baffle extends Component {
       cart.push(obj)
     })
     cart = JSON.stringify(cart);
+    
+    // 监测 是否需要重新生成订单
+    if (this.state.shoppingCart && this.state.clock > 180) {
+      let Scart = []
+      this.state.shoppingCart.goodlist.forEach(Sval => {
+        let obj = {
+          id: Sval.id,
+          num: Sval.selectNum,
+        }
+        Scart.push(obj)
+      })
+      Scart = JSON.stringify(Scart);
+      
+      if(Scart == cart && this.state.clock > 180) {
+        console.log("不需要重新生成订单")
+        return;
+      }
+    }
+
+
+
+
     axios({
       method: 'post',
       url: '/cmts.php?c=api&a=create_canteen_order',
@@ -131,6 +195,8 @@ class Baffle extends Component {
         this.setState({
           shoppingCart: shoppingCart,
         })
+        clearInterval(this.clock)
+        this.setClock()
         // this.props.updateOrderId(res.data.ResData.order_id)
       } else {
         console.log(res.data.ResMsg)
@@ -171,6 +237,16 @@ class Baffle extends Component {
   }
 
   clearAllCart = () => {
+    let shoppingCart = {
+      totalNum:0,
+      goodlist:[],
+      m_priceTotal: 0,
+      p_priceTotal: 0,
+      order_id: undefined,
+    }
+    this.setState({
+      shoppingCart: shoppingCart,
+    })
     this.props.clearAllCart()
   }
 
@@ -204,11 +280,11 @@ class Baffle extends Component {
             }
             {
               // 微信支付
-              this.state.progress === 2 && <PayByWeixin {...this.props} cancelPaying={this.cancelPaying} clearAllCart={this.clearAllCart} changeProgress={this.changeProgress}></PayByWeixin>
+              this.state.progress === 2 && <PayByWeixin {...this.state} cancelPaying={this.cancelPaying} clearAllCart={this.clearAllCart} changeProgress={this.changeProgress}></PayByWeixin>
             }
             {
               // 会员支付
-              this.state.progress === 3 && <PayByHuiyuan {...this.props}  cancelPaying={this.cancelPaying} clearAllCart={this.clearAllCart} changeProgress={this.changeProgress}></PayByHuiyuan>
+              this.state.progress === 3 && <PayByHuiyuan {...this.state}  cancelPaying={this.cancelPaying} clearAllCart={this.clearAllCart} changeProgress={this.changeProgress}></PayByHuiyuan>
             }
 
             {
