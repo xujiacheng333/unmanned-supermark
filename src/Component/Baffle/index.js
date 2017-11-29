@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import store from '@/reducers';
 import ShoppingCar from '@/Container/ShoppingCar';
 import PayByWeixin from '@/Container/PayByWeixin';
 import PayByHuiyuan from '@/Container/PayByHuiyuan';
@@ -26,7 +27,7 @@ class Baffle extends Component {
     this.state = {
       createOrderRepeatTims: 0,
     }
-    
+    store.subscribe(this.anim)
   }
 
   Socket = new webSock({
@@ -69,6 +70,48 @@ class Baffle extends Component {
       right = '0' + right;
     }
     return left + ':' + right
+  }
+  
+  // 打开动画
+  anim = () => {
+    let angl1 = (this.props.store.baffle !== store.getState().baffle ) && store.getState().baffle === true
+    let angl2 = (this.props.store.baffle === store.getState().baffle ) && (this.props.store.progress !== store.getState().progress)
+    if ( !angl1 && !angl2 ) {
+      return;
+    }
+
+    let BaffleStyle = this.state.BaffleStyle;
+    let BaffleAnim = this.state.BaffleAnim;
+    BaffleStyle = {
+      opacity: '0.7',
+      scale: '0.1',
+    }
+    BaffleAnim = [
+    {
+      opacity: '1',
+      duration: 100,
+      scale: '1.05',
+    },
+    {
+      opacity: '1',
+      duration: 450,
+      scale: '1',
+
+    }
+    ]
+    this.setState({
+      BaffleStyle: {
+        opacity: '0.7',
+        scale: '0.1',
+      },
+      BaffleAnim: [],
+    })
+    setTimeout(()=>{
+      this.setState({
+        BaffleStyle: BaffleStyle,
+        BaffleAnim: BaffleAnim,
+      })
+    },0)
   }
 
 
@@ -133,7 +176,14 @@ class Baffle extends Component {
       <div className="Baffle">
         <div className="bg-cover"></div>
 
-            <div className="Baffle-content">
+            <TweenOne 
+              className="Baffle-content"
+              style={this.state.BaffleStyle}
+              animation={this.state.BaffleAnim}
+              paused={false}
+            >
+
+
             <img src={closeIcon} className="closeIcon" alt="" onClick={this.props.toggleBuffle}/>
 
             {
@@ -157,7 +207,7 @@ class Baffle extends Component {
               // 网络异常
               this.props.store.progress === 5 && <NetError></NetError>
             }
-            </div>
+            </TweenOne>
            
       </div>
     ) : null

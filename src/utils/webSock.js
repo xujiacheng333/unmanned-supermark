@@ -26,7 +26,8 @@ function myWebSocket(config, that){
             ws.onmessage = function(e){
                 console.log("服务器返回数据：",e.data);
                 //writelog("服务器返回数据："+e.data);
-                var data = eval("("+e.data+")");
+                // var data = eval("("+e.data+")");
+                var data = JSON.parse(e.data);
                 var func = data['type'];
                 if(func && func in that){
                     that[func](data);

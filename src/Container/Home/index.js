@@ -7,8 +7,7 @@ import './style.css'
 import navTopBg from '@/imgs/nav-top-bg.png';
 import shoppingCartIcon from '@/imgs/shopping-cart.png';
 import TweenOne from 'rc-tween-one';
-import {windowHeight, resetHeight} from '@/utils/reset';
-import utils from '@/utils/utils';
+import {windowHeight} from '@/utils/reset';
 import config from "@/config";
 
 
@@ -74,10 +73,10 @@ class Home extends Component {
   // 选择商品 点击事件  （结束）
   selectOne = (eve) => {
     let that = this
-    let clientX = parseInt(eve.changedTouches[0].clientX) 
-    let clientY = parseInt(eve.changedTouches[0].clientY)
-    let agal1 = (this.state.touchXY.clientX - 5) < clientX && (this.state.touchXY.clientX + 5) > clientX
-    let agal2 = (this.state.touchXY.clientY - 5) < clientY && (this.state.touchXY.clientY + 5) > clientY
+    let clientX = parseInt(eve.changedTouches[0].clientX, 10); 
+    let clientY = parseInt(eve.changedTouches[0].clientY, 10);
+    let agal1 = (this.state.touchXY.clientX - 5) < clientX && (this.state.touchXY.clientX + 5) > clientX;
+    let agal2 = (this.state.touchXY.clientY - 5) < clientY && (this.state.touchXY.clientY + 5) > clientY;
     if (!agal1 || !agal2) {
       return;
     }
@@ -138,7 +137,7 @@ class Home extends Component {
     let output = null
     goods_list.forEach((kval)=>{
       kval.canteens.forEach(cval=>{
-        if (cval.id == goodsID) { 
+        if (cval.id === goodsID) { 
           output = cval
         }
         return cval;
@@ -156,7 +155,7 @@ class Home extends Component {
 
   // 左侧栏 菜单品类 改变
   GK_change = (eve) => {
-    let index = parseInt(eve.currentTarget.getAttribute('data-index'))
+    let index = parseInt(eve.currentTarget.getAttribute('data-index'), 10)
     this.setState({
       currentGK_index: index,
       goods_list_scrrolling: true,
@@ -286,7 +285,7 @@ class Home extends Component {
                         <div className="oneGoods-cover" data-goods-id={oneGoods.id} onTouchStart={this.selectOneStart} onTouchEnd={this.selectOne}></div>
                         {
                           this.props.store && this.props.store.cart.goodlist.map((cartItem,cartIndex) => (
-                            cartItem.id == oneGoods.id && <span key={cartItem.id} className="oneGoods-selectNum">{cartItem.selectNum}</span>
+                            cartItem.id === oneGoods.id && <span key={cartItem.id} className="oneGoods-selectNum">{cartItem.selectNum}</span>
                           ))
                         }
                         

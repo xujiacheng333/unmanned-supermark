@@ -6,9 +6,10 @@ export default function (state, item, changeNum) {
     let hasItem = false;
     cart.goodlist.map(val => {
       if (val.id === item.id) {
-        val.selectNum = parseInt(val.selectNum) + changeNum;
+        val.selectNum = parseInt(val.selectNum , 10) + changeNum;
         hasItem = true;
       }
+      return val;
     })
     if (!hasItem) {
       item.selectNum = 1;
@@ -18,7 +19,7 @@ export default function (state, item, changeNum) {
     let outputGoodlist = []
     cart.goodlist.forEach(val => {
       if (val.id === item) {
-        val.selectNum = parseInt(val.selectNum) + changeNum;
+        val.selectNum = parseInt(val.selectNum, 10) + changeNum;
       }
       if (val.selectNum > 0) {
         outputGoodlist.push(val)
@@ -32,9 +33,9 @@ export default function (state, item, changeNum) {
   cart.m_priceTotal = 0;
   cart.p_priceTotal = 0;
   cart.goodlist.forEach(cval=>{
-    cart.totalNum = parseInt(cart.totalNum) + parseInt(cval.selectNum);
-    cart.m_priceTotal = parseFloat(cart.m_priceTotal) + parseFloat(parseFloat(cval.m_price) * parseInt(cval.selectNum)) ;
-    cart.p_priceTotal = parseFloat(cart.p_priceTotal) + parseFloat(parseFloat(cval.p_price) * parseInt(cval.selectNum)); 
+    cart.totalNum = parseInt(cart.totalNum, 10) + parseInt(cval.selectNum, 10);
+    cart.m_priceTotal = parseFloat(cart.m_priceTotal) + parseFloat(parseFloat(cval.m_price) * parseInt(cval.selectNum, 10)) ;
+    cart.p_priceTotal = parseFloat(cart.p_priceTotal) + parseFloat(parseFloat(cval.p_price) * parseInt(cval.selectNum, 10)); 
   })
 
   cart.m_priceTotal = cart.m_priceTotal.toFixed(2)
