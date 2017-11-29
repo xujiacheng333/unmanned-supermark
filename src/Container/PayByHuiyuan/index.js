@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './style.css'
 import PayByHuiyuanIcon from './PayByHuiyuanIcon.png'
 import loadingIcon from './loading.gif';
@@ -16,14 +17,15 @@ import config from '@/config';
 
 
 class PayByHuiyuan extends Component {
-  constructor (props) {
-    super(props)
-  }
+
 
 
   // 取消正在支付
   cancelPaying = () => {
-    this.props.cancelPaying()
+    this.props.dispatch({
+      type: 'IS_PAYING',
+      isPaying: false,
+    })
   }
 
 
@@ -33,7 +35,7 @@ class PayByHuiyuan extends Component {
         <div className="top">
           <h2>会员支付</h2>
           {
-            this.props.shoppingCart && <span className="price ">￥<strong>{this.props.shoppingCart.p_priceTotal}</strong></span>
+            this.props.store.cart && <span className="price ">￥<strong>{this.props.store.cart.p_priceTotal}</strong></span>
           }
           
           <span className="letfTime">剩余支付时间{this.props.clockText}</span>
@@ -41,13 +43,13 @@ class PayByHuiyuan extends Component {
         
         {
           // 未支付
-          !this.props.isPaying && <div className="mid">
+          !this.props.store.isPaying && <div className="mid">
             <div className="Qrcode">
               
               <img className="Qrcode-img" src={noQrcode} alt=""/>
               <img className="loadingIcon" src={loadingIcon} alt=""/>
               {
-                this.props.shoppingCart && this.props.shoppingCart.order_id && <img className="Qrcode-img real-Qrcode-img" src={'http://wx.hayimovie.com/cmts.php?c=api&a=create_qrcode&content=http%3a%2f%2fwx.hayimovie.com%2fcmts.php%3fc%3dticket%26a%3dpay_canteen_order%26payment%3d1%26channel_id%3d1%26cinema_id%3d'+ config.cinema_id + '%26seller_id%3d' + config.seller_id + '%26order_id%3d' + this.props.shoppingCart.order_id} alt=""/>
+                this.props.store.cart && this.props.store.cart.order_id && <img className="Qrcode-img real-Qrcode-img" src={'http://wx.hayimovie.com/cmts.php?c=api&a=create_qrcode&content=http%3a%2f%2fwx.hayimovie.com%2fcmts.php%3fc%3dticket%26a%3dpay_canteen_order%26payment%3d1%26channel_id%3d1%26cinema_id%3d'+ config.cinema_id + '%26seller_id%3d' + config.seller_id + '%26order_id%3d' + this.props.store.cart.order_id} alt=""/>
               }
               
             </div>
@@ -58,7 +60,7 @@ class PayByHuiyuan extends Component {
         </div>
         }
         {
-          this.props.isPaying && <div className="mid">
+          this.props.store.isPaying && <div className="mid">
             <img className="paying" src={paying} alt=""/>
             <span className="paying-t1">扫码成功</span>
             <span className="paying-t2">请在手机上确认支付</span>
@@ -71,4 +73,7 @@ class PayByHuiyuan extends Component {
 
 }
 
-export default PayByHuiyuan;
+function mapStateToProps (state) {
+  return {store: state}
+}
+export default connect(mapStateToProps)(PayByHuiyuan);

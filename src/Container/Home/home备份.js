@@ -1,8 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import store from '@/reducers';
 import './style.css'
 import navTopBg from '@/imgs/nav-top-bg.png';
 import shoppingCartIcon from '@/imgs/shopping-cart.png';
@@ -10,7 +8,6 @@ import TweenOne from 'rc-tween-one';
 import {windowHeight, resetHeight} from '@/utils/reset';
 import utils from '@/utils/utils';
 import config from "@/config";
-
 
 // 组件
 import Baffle from '@/Component/Baffle';
@@ -28,15 +25,9 @@ class Home extends Component {
     cartAnimationStyle: {
       opacity: '0',
     }
-
-  }
-
-  constructor (props) {
-    super(props)
-
-    store.subscribe(() => {
-      this.toggleBuffle()
-    })
+    // 测试
+    // openBaffle: true,
+    
   }
 
   componentDidMount() {
@@ -132,24 +123,100 @@ class Home extends Component {
 
   }
   
-  //  更新购物车
+  //  更新所有商品
   updataGoodlist = (goodsID,changeNum) => {
+
     let goods_list = this.state.goods_list;
-    let output = null
-    goods_list.forEach((kval)=>{
-      kval.canteens.forEach(cval=>{
+    goods_list.map((kval)=>{
+      kval.canteens.map(cval=>{
         if (cval.id == goodsID) { 
-          output = cval
+
+          // 增加
+          if (cval.selectNum === undefined) {
+            cval.selectNum = 1
+          } else {
+            cval.selectNum += changeNum
+          }
+
         }
         return cval;
       })
       return kval;
     })
-    // 更新购物车
-    this.props.updateCart(output , changeNum)
+    
+    // 需要否？
+    this.setState({
+      goods_list: goods_list,
+    })
+
+    this.updateCart(goods_list)
   }
   
+  // 更新购物车
+  updateCart = (goods_list) => {
+    let shoppingCart = {
+      totalNum:0,
+      goodlist:[],
+      m_priceTotal: 0,
+      p_priceTotal: 0,
+    }
+    goods_list.forEach(kval=>{
+      kval.canteens.forEach(cval=>{
+        if (cval.selectNum && cval.selectNum > 0) {
+          // 去除超值推荐的重复内容
+          if (!utils.isInShopCart(shoppingCart.goodlist, cval.id)) {
+            shoppingCart.goodlist.push(cval);
+            shoppingCart.totalNum += parseInt(cval.selectNum);  
+          }
+        }
+      })
+    })
 
+    shoppingCart.goodlist.forEach(val=>{
+      shoppingCart.m_priceTotal += parseFloat(val.m_price) * parseInt(val.selectNum);
+      shoppingCart.p_priceTotal += parseFloat(val.p_price) * parseInt(val.selectNum);
+    })
+    shoppingCart.m_priceTotal = shoppingCart.m_priceTotal.toFixed(2)
+    shoppingCart.p_priceTotal = shoppingCart.p_priceTotal.toFixed(2)
+    
+    if (shoppingCart.totalNum <= 0) {
+      this.toggleBuffle(false)
+    }
+
+    this.setState({
+      shoppingCart: shoppingCart,
+    })
+
+  }
+
+
+  // 清空购物车 
+  clearAllCart = () =>{
+
+    let shoppingCart = {
+      totalNum:0,
+      goodlist:[],
+      m_priceTotal: 0,
+      p_priceTotal: 0,
+      order_id: undefined,
+    }
+    let goods_list = this.state.goods_list;
+    goods_list.map((kval)=>{
+      kval.canteens.map(cval=>{
+        if (cval.selectNum) {
+          delete cval.selectNum
+        }
+        return cval;
+      })
+      return kval;
+    })
+
+
+    this.setState({
+      goods_list: goods_list,
+      shoppingCart: shoppingCart,
+    })
+  }
 
   // 滚动定时器
   scrollingTimeOut = null
@@ -206,11 +273,10 @@ class Home extends Component {
 
   }
 
-  // 购物车 开关动画  更改store内的baffle时生效
-  toggleBuffle = () => {
-    if (store.getState().baffle === this.props.store.baffle) return;
-
-    let _show = store.getState().baffle
+  // 购物车 开关
+  toggleBuffle = (show) => {
+    // 开关
+    let _show = show===false ? false : true;
     let cartCanClickAnimation = []
     // 动画
     // 消失
@@ -240,10 +306,9 @@ class Home extends Component {
     
     this.setState({
       cartCanClickAnimation: cartCanClickAnimation,
+      openBaffle: _show,
     })
-
   }
-
 
   render() {
     return (
@@ -285,9 +350,7 @@ class Home extends Component {
                       <div className="oneGoods" key={"ongoods-index-onIndex" + oneIndex} >
                         <div className="oneGoods-cover" data-goods-id={oneGoods.id} onTouchStart={this.selectOneStart} onTouchEnd={this.selectOne}></div>
                         {
-                          this.props.store && this.props.store.cart.goodlist.map((cartItem,cartIndex) => (
-                            cartItem.id == oneGoods.id && <span key={cartItem.id} className="oneGoods-selectNum">{cartItem.selectNum}</span>
-                          ))
+                          oneGoods.selectNum > 0 && <span className="oneGoods-selectNum">{oneGoods.selectNum}</span>
                         }
                         
                         <img src={oneGoods.imgurl} className="oneGoods-img" alt="" />
@@ -319,16 +382,16 @@ class Home extends Component {
           >
           {
             // 按钮右上角数字
-            this.props.store && this.props.store.cart.totalNum > 0 && <span className="cartTotalNum">{this.props.store.cart.totalNum}</span>
+            this.state.shoppingCart.totalNum > 0 && <span className="cartTotalNum">{this.state.shoppingCart.totalNum}</span>
           }
           {
             // 购物车按钮 可点击
-            this.props.store &&  this.props.store.cart.totalNum > 0 && <img 
+            this.state.shoppingCart.totalNum > 0 && <img 
               component='img'
               src={shoppingCartIcon}
               className="shopping-cart" 
               alt="" 
-              onClick={this.props.toggleBuffle} 
+              onClick={this.toggleBuffle} 
             ></img>
           }
           </TweenOne>
@@ -348,41 +411,11 @@ class Home extends Component {
           
         </div>
 
-        <Baffle />
+        <Baffle {...this.state} toggleBuffle={this.toggleBuffle} updataGoodlist={this.updataGoodlist} clearAllCart={this.clearAllCart} />
       </div>
     );
   }
 }
 
-function mapStateToProps (state) {
-  return {store: state}
-}
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleBuffle: () => {
-      dispatch({
-        type: 'TOGGLE_BAFFLE',
-      })
-    },
-    updateCart: (item, changeNum) => {
-      dispatch({
-        type: 'UPDATE_CART',
-        item: item,
-        changeNum: changeNum,
-      })
-    },
-    updateGoodList: (good_list) => {
-      dispatch({
-        type: 'UPDATE_GOOD_LIST',
-        good_list: good_list
-      })
-    },
-    clearCart: ()=> {
-      dispatch({
-        type: 'CLEAR_CART',
-      })
-    }
-    
-  }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Home);
+
+export default Home;
