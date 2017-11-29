@@ -1,6 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 import _config from '@/config';
+import store from '@/reducers';
 
 
 function myWebSocket(config, that){
@@ -71,13 +72,19 @@ function myWebSocket(config, that){
             console.log('paying_data:',data);
             var res = data['res'];
             console.log('paying_res:',res);
-            this.component.paying()
+            store.dispatch({
+                type: 'IS_PAYING',
+                isPaying: true,
+            })
         }
         this.pay_success = function(data){
             console.log('pay_success_data:',data);
             var res = data['res'];
             console.log('pay_success_res:',res);
-            this.component.changeProgress(4)
+            store.dispatch({
+                type: 'CHANGE_PROGRESS',
+                progress: 4,
+            })
         }
 
         this.init();

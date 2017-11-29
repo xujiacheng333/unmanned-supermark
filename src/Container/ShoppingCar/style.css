@@ -20,7 +20,7 @@
 .ShoppingCar-shopping-cart{
   width: 110px;
   height: 110px;
-  position: fixed;
+  position: absolute;
   left: 32px;
   top: -53px;
   z-index: 2;
@@ -36,7 +36,7 @@
   background-color: #ff0000;
   color: #fff;
   border-radius: 20px;
-  position: fixed;
+  position: absolute;
   left: 104px;
   top: -60px;
   z-index: 3;
